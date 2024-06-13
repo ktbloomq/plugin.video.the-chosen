@@ -43,13 +43,6 @@ pageId = {
 
 def get_data(page='main'):
     pid = pageId[page]
-    fname = xbmcvfs.translatePath(f'special://temp/thechosen.{page}.json')
-    try:
-        m = os.path.getmtime(fname)
-        if m + 21600 > time.time():
-            return json.load(open(fname, 'r'))
-    except:
-        pass
     cookie = addon.getSetting('cookie')
     if cookie != "":
         HEADERS["cookie"] = cookie
@@ -59,8 +52,6 @@ def get_data(page='main'):
         return {}
 
     j = resp.json()
-    with open(fname, 'w') as f:
-        json.dump(j, f)
     return j
 
 def list_page(page,sub=None,subsub=None):
